@@ -106,24 +106,27 @@ function scorerPrompt() {
 
  
 
+function transform(oldPointStructure){
+let newPointStructure = {}
+  for(let letters in oldPointStructure){
+    for( let i = 0; i< oldPointStructure[letters].length; i++){
+      newPointStructure[oldPointStructure[letters][i].toLowerCase()] = Number(letters)
+    }
+  }
+  return newPointStructure
+};
 
-function transform() {
-//for (const newPointValue in oldPointStructure) {
+ let newPointStructure = transform(oldPointStructure)
 
-}
-//};
 
-let newPointStructure = {
-
-}
 
 
 
 function runProgram() {
    initialPrompt();
   let scorePr = scorerPrompt();
-  console.log("algorithm name: ", scoringAlgorithms[scorePr].name);
-  console.log("scorerFunction result: ", scoringAlgorithms[scorePr].scoringFunction(userInput));
+  //console.log("SCore for: ", scoringAlgorithms[scorePr].name);
+  console.log("Score for: ","'", userInput,"'", scoringAlgorithms[scorePr].scoringFunction(userInput));
 
 
    
