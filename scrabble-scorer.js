@@ -12,18 +12,20 @@ const oldPointStructure = {
   10: ['Q', 'Z']
 };
 
+
+
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
-	let letterPoints = "";
+	let letterPoints = 0;
  
 	for (let i = 0; i < word.length; i++) {
  
 	  for (const pointValue in oldPointStructure) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
-			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+			console.log(`Points for '${word[i]}': ${pointValue}\n`)
 		 }
- 
+    letterPoints += Number(pointValue);
 	  }
 	}
 	return letterPoints;
@@ -31,27 +33,118 @@ function oldScrabbleScorer(word) {
 
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
-
+let userInput = "";
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+   userInput = input.question("Let's play some scrabble! Enter a word: ").toLowerCase();
+  //console.log(scorerPrompt(userInput));
+   return userInput;
 };
 
-let simpleScore;
+//let simpleScore;
 
-let vowelBonusScore;
+function simpleScore(word) {
+ let simple = 0;
+ for (let i = 0; i < word.length; i++) {
+   simple = simple + 1;
+ }
+ return simple;
+}
 
-let scrabbleScore;
 
-const scoringAlgorithms = [];
+function vowelBonusScore(word) {
+  let vowelArr = ["a","e","i","o","u"];
+  let vowelScore = 0;
 
-function scorerPrompt() {}
+for (let i = 0; i < word.length; i++){
+//vowelArr = oldPointStructure[1].slice(0,4);
+//console.log(word[i]);
+if (vowelArr.includes(word[i])){
+vowelScore = vowelScore + 3;
+} else {
+  vowelScore += 1;
+}
+//console.log(vowelScore);
+//console.log(vowelArr);
+}
 
-function transform() {};
+return vowelScore;
+}
+//console.log(vowelArr);
 
-let newPointStructure;
+
+
+function scrabbleScore (word){
+  scraPoints = 0
+  for (let i = 0; i< word.length; i++){
+    if((word[i]) in newPointStructure){
+      //console.log(newPointStructure[word[i]])
+      scraPoints += newPointStructure[word[i]]
+    }
+  }
+
+return  scraPoints
+};
+
+//const scoringAlgorithms = [simpleScr, vowelBoScr, scrabbleScr];
+
+let simpleScr = {
+  name: "Simple Score",
+  description: "Each letter is worth 1 point.",
+  scoringFunction: simpleScore
+};
+
+let vowelBoScr = {
+  name: "Bonus Vowels",
+  description: "Vowels are 3 pts, consonants are 1 pt.",
+  scoringFunction: vowelBonusScore
+};
+
+let scrabbleScr = {
+  name: "Scrabble",
+  description: "The traditional scoring algorithm.",
+  scoringFunction: scrabbleScore 
+};
+
+const scoringAlgorithms = [simpleScr, vowelBoScr, scrabbleScr];
+
+function scorerPrompt() {
+    //*console.log(`\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system \nEnter 0, 1, or 2:`);
+    let userNum = input.question("Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system \nEnter 0, 1, or 2: ");
+
+   return userNum;
+}
+
+ 
+
+
+
+function transform (oldPointStructure) {
+    
+    let newPointStructure ={};
+    for (let newPointval in oldPointStructure){
+      for( let i = 0; i < oldPointStructure[newPointval].length; i++){
+        newPointStructure[oldPointStructure[newPointval][i].toLowerCase()] = Number(newPointval);
+       
+    }
+    }
+    return newPointStructure
+}
+
+
+let newPointStructure = transform(oldPointStructure)
+//console.log(newPointStructure);
+
+
 
 function runProgram() {
    initialPrompt();
+  let scorePr = scorerPrompt();
+  //console.log("algorithm name: ", scoringAlgorithms[scorePr].name);
+  console.log("Score for","'",userInput,"'", scoringAlgorithms[scorePr].scoringFunction(userInput));
+
+
+
+   
    
 }
 
