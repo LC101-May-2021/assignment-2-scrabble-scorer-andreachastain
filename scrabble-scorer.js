@@ -73,7 +73,17 @@ return vowelScore;
 
 
 
-let scrabbleScore;
+function scrabbleScore (word){
+  scraPoints = 0
+  for (let i = 0; i< word.length; i++){
+    if((word[i]) in newPointStructure){
+      //console.log(newPointStructure[word[i]])
+      scraPoints += newPointStructure[word[i]]
+    }
+  }
+
+return  scraPoints
+};
 
 //const scoringAlgorithms = [simpleScr, vowelBoScr, scrabbleScr];
 
@@ -99,34 +109,39 @@ const scoringAlgorithms = [simpleScr, vowelBoScr, scrabbleScr];
 
 function scorerPrompt() {
     //*console.log(`\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system \nEnter 0, 1, or 2:`);
-    let userNum = input.question("Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system \nEnter 0, 1, or 2 ");
+    let userNum = input.question("Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system \nEnter 0, 1, or 2: ");
 
    return userNum;
 }
 
  
 
-function transform(oldPointStructure){
-let newPointStructure = {}
-  for(let letters in oldPointStructure){
-    for( let i = 0; i< oldPointStructure[letters].length; i++){
-      newPointStructure[oldPointStructure[letters][i].toLowerCase()] = Number(letters)
+
+
+function transform (oldPointStructure) {
+    
+    let newPointStructure ={};
+    for (let newPointval in oldPointStructure){
+      for( let i = 0; i < oldPointStructure[newPointval].length; i++){
+        newPointStructure[oldPointStructure[newPointval][i].toLowerCase()] = Number(newPointval);
+       
     }
-  }
-  return newPointStructure
-};
-
- let newPointStructure = transform(oldPointStructure)
+    }
+    return newPointStructure
+}
 
 
+let newPointStructure = transform(oldPointStructure)
+//console.log(newPointStructure);
 
 
 
 function runProgram() {
    initialPrompt();
   let scorePr = scorerPrompt();
-  //console.log("SCore for: ", scoringAlgorithms[scorePr].name);
-  console.log("Score for: ","'", userInput,"'", scoringAlgorithms[scorePr].scoringFunction(userInput));
+  //console.log("algorithm name: ", scoringAlgorithms[scorePr].name);
+  console.log("Score for","'",userInput,"'", scoringAlgorithms[scorePr].scoringFunction(userInput));
+
 
 
    
